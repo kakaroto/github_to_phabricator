@@ -1,0 +1,17 @@
+# Github to Phabricator migration tool
+
+This tool has two parts, the first is what fetches all of data from github,
+you can configure it in github_issues.py by setting the username, api token (that you generate in settings->personal access token"), the project's org and repository name.
+You can also set a minimum and maximum issue id to fetch for the migration. 
+The data that gets downloaded from github is cached, so you must create a cache directory before use. If you want to refresh the issues, simply delete its content.
+
+
+The second part is what uploads the data to Phabricator. It can be configured in wmfphablib/config.py file. It will need a dedicated user for the migration (by default "githubMigration"), so you must create such a user (add -> User Account) and set it as a bot.
+You will then need to generate a conduit API token for that user, by accessing the user's profile (you can search for the user githubMigration), then Edit settings, then Conduit API token.
+Once you generate the token, you can set the phabricator URL, install path, databaser user/password and the Conduit token in the config.py file.
+
+The wmfphablib code was copied from the wikimedia phabricator tools repository (https://gerrit.wikimedia.org/r/#/admin/projects/phabricator/tools) and modified to suit our needs.
+
+You will need a version of phabricator-python that supports the new token-based authentication. 
+Until it is merged upstream, you can use this version instead : https://github.com/gnoronha/python-phabricator/commits/new-style-auth
+
