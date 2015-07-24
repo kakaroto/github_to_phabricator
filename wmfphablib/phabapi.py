@@ -61,15 +61,26 @@ class phabapi:
         return out
 
     def task_create(self, title, desc, id, priority, ownerPhid=None, projects=[]):
-        reference = id
-
         return self.con.maniphest.createtask(title=title,
                                         description="%s" % desc,
                                         projectPHIDs=projects,
                                         priority=priority,
                                         ownerPHID=ownerPhid,
-                                        auxiliary={"std:maniphest:external_reference":"%s" % (reference,)})
+                                        auxiliary={"std:maniphest:external_reference":"%s" % (id,)})
 
+    def get_project_phid(self, name):
+        result = self.con.project.query(names=[name])
+        if result:
+            return result['data'].keys()[0]
+        return None
+
+    def get_phid_by_username(self, username):
+        result = self.con.user.query(usernames=[username])
+        if len(result.response):
+            return result[0]['phid']
+        return None
+
+if config.have_db_access:
     def ensure_project(self, project_name,
                              pmembers=[],
                              view='public',
