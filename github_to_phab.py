@@ -37,7 +37,7 @@ for issue in github_issues:
     author_phid = api.get_phid_by_username(issue.author)
     assignee_phid = None if issue.assignee is None else api.get_phid_by_username(issue.assignee)
     description = "= Task migrated from github issue #%d which was available at %s =\n\n%s" % (issue.id, issue.url, issue.description)
-    if config.have_db_access is False or author_pid is None:
+    if config.have_db_access is False or author_phid is None:
         description = "> Issue originally made by **%s** on //%s//\n\n%s" % (issue.author, issue.created_at, description)
     new_task = api.task_create(issue.title, description, issue.id, 90, assignee_phid, [project_phid])
     phid = new_task['phid']
