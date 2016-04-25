@@ -63,7 +63,7 @@ for issue in github_issues:
         print "Adding comment from %s" % author
         author_phid = api.get_phid_by_username(author)
         if author_phid is None or config.have_db_access is False:
-            comment = "> Comment originaly made by **%s** on //%s//\n\n%s" % (author, date, comment)
+            comment = "> Comment originally made by **%s** on //%s//\n\n%s" % (author, date, comment)
         api.task_comment(id, comment)
         if config.have_db_access:
             tphid = phabdb.last_comment(phid)
