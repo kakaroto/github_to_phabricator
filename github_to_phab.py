@@ -21,12 +21,10 @@ if config.have_db_access is False and (config.delete_existing_issues or config.f
     sys.exit(-1)
 
 if config.delete_existing_issues:
-    tasks = phabdb.get_task_list()
+    tasks = api.get_task_list(project_phid)
     for task in tasks:
-        projects = phabdb.get_task_projects(task)
-        if project_phid in projects:
-            print "Deleting %s" % task
-            util.destroy_issue(task)
+        print "Deleting %s" % task
+        util.destroy_issue(task)
 
 if config.force_ids and len(phabdb.get_task_list()) > 0:
     print "You should not force task ID if there are still existing tasks in maniphest"

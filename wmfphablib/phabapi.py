@@ -80,6 +80,15 @@ class phabapi:
             return result[0]['phid']
         return None
 
+    def get_task_list(self, project=None):
+        if project is None:
+            result = self.con.maniphest.query()
+        else:
+            result = self.con.maniphest.query(projectPHIDs=[project])
+        if result:
+            return result.keys()
+        return None
+
 if config.have_db_access:
     def ensure_project(self, project_name,
                              pmembers=[],
